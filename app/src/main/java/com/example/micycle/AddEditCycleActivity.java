@@ -80,7 +80,7 @@ public class AddEditCycleActivity extends AppCompatActivity {
     private List<String> newlyUploadedImageUrls = new ArrayList<>();
 
     // ImgBB API Key - Replace with your actual API key
-    private static final String IMGBB_API_KEY = "cbd30ff22d9cde8941f5bb8a2c43ec03";
+    private static final String IMGBB_API_KEY = "";
     private static final String IMGBB_UPLOAD_URL = "https://api.imgbb.com/1/upload";
 
     // Volley Request Queue

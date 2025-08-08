@@ -1,0 +1,281 @@
+## MiCycle Application Flow (Detailed)
+
+This section outlines the user and administrator flows within the MiCycle application, identifying key screens/activities and important functional details.
+
+### 1. App Launch & Authentication # [DONE]
+
+*   **Entry Screen:** When the app is launched, the user is presented with options to:
+    *   Login (for existing users or administrators) # [DONE]
+    *   Sign Up (for new regular users) # [DONE]
+
+### 2. User Sign Up Flow # [DONE]
+
+*   **User Sign Up Screen:** # [DONE]
+    *   User provides necessary personal details (e.g., name, email, password). # [DONE] (Basic fields in UI, validation and additional details storage # [DONE])
+    *   **Feature:** Email OTP verification implemented for secure registration. # [DONE] (OTP sent via Brevo, with a 60-second resend timer.)
+    *   Input validation is performed. # [DONE]
+    *   Upon successful registration and OTP verification, the user's account is created. # [DONE] (via Firebase Auth)
+    *   Transition: User is typically directed back to the Login Screen or directly to the User Main Screen. # [DONE] (Currently directs to Login Screen after signup)
+
+### 3. Login Flow (User & Admin) # [DONE]
+
+*   **Login Screen:** # [DONE]
+    *   Users enter their credentials (e.g., email/username and password). # [DONE]
+    *   There should be a mechanism to distinguish between a regular user login and an administrator login (e.g., separate fields, a toggle, or automatic detection based on credentials/role). # [DONE] (Automatic detection based on userType from Firestore)
+    *   Authentication is performed. # [DONE] (via Firebase Auth)
+    *   **Feature:** Added a check to prevent blocked users from logging in. # [DONE]
+    *   Transition:
+        *   Successful User Login -> Directs to the User Main Screen. # [DONE]
+        *   Successful Admin Login -> Directs to the Admin Dashboard Activity. # [DONE]
+        *   Failed Login -> Displays error message. # [DONE]
+        *   Blocked User Login -> Displays a message indicating the account is blocked. # [DONE]
+
+### 4. User Main Application Flow # [DONE]
+
+*   **User Main Screen (Browse Cycles):** # [DONE] (Layout created, RecyclerView setup, Adapter created. Displaying data requires fetching from Firebase # [DONE])
+    *   Removed top bar and added a custom "Book Cycle" heading. # [DONE]
+    *   This is the primary screen after a regular user logs in. # [DONE]
+    *   Displays a list of cycles *currently available* for rent by other users. # [DONE] (Fetched from Firebase Firestore, filtering needed for owned cycles # [DONE]. **Note: Requires a composite Firestore index on 'cycles' collection with 'availabilityStatus' and 'ownerId' fields to filter correctly.**)
+    *   Each list item shows key information about the cycle (e.g., image, model, price, location). # [DONE] (Layout defined, needs data binding/setting in Adapter # [DONE]. Now displays location name instead of ID by fetching Location data. # [DONE]. **Implemented image loading in list items using Picasso.**)
+    *   **Feature:** Includes options to **sort** the list of cycles by: # [DONE] (Implemented client-side sorting)
+        *   Price # [DONE] (Client-side sorting implemented)
+        *   Location Name (Alphabetical) # [DONE] (Client-side sorting implemented, involves fetching location names.)
+        *   (Potentially by user reviews/ratings if implemented later). # [DONE] (Average rating and number of reviews are now displayed.)
+        *   Rating # [DONE] (Client-side sorting implemented)
+    *   Navigation Options: Provides access to other user sections: # [DONE]
+        *   View Profile # [DONE]
+        *   View Transaction History # [DONE]
+        *   Manage My Cycles (for users who own bikes) # [DONE]
+        *   Logout # [DONE]
+    *   **Background Task:** Automatically checks for and updates expired booked cycles to 'available' status upon fetching cycles. # [DONE]
+    *   **Resolved Issue:** Fixed duplicate listing of cycles by adjusting data fetching calls in activity lifecycle methods (`onCreate` and `onResume`) to rely on Spinner's `onItemSelected` for initial load and sorting changes. # [DONE]
+
+*   **Cycle Details Screen:** # [DONE] (Activity and layout created, navigation from User Main implemented. Layout for displaying details refined.)
+    *   Accessed by selecting a cycle from the User Main Screen. # [DONE]
+    *   Displays comprehensive details about the selected cycle: # [DONE] (Layout in place)
+        *   Multiple images of the cycle. # [DONE]
+        *   Detailed description (model, color, features). # [DONE] (Fetched and displayed from Firestore)
+        *   Rental price. # [DONE] (Fetched and displayed from Firestore. Now displayed with Rupees currency symbol.)
+        *   Pickup/Drop-off location. # [DONE] (Location ID fetched and displayed, fetching and displaying Location name based on ID # [DONE]. Removed duplicate "Location:" heading in UI. # [DONE])
+        *   Availability status. # [DONE] (Fetched and displayed from Firestore)
+        *   (Potential) User reviews or rating. # [DONE] (Average rating and number of reviews are now displayed with layout adjustments. **Layout adjusted to position rating and review count below other details.**)
+    *   Action: Button to initiate the booking process if the cycle is available. # [DONE] (Button exists, navigation to BookingActivity implemented, button enabled/disabled based on availability, booking logic implemented, **Resolved Issue: Passing cycleId to BookingActivity using the correct intent extra key "cycle_id"**)
+        *   **Important Detail:** Requires user's phone number to be provided in Profile (OTP verification not required for booking as per user request). # [DONE] (Phone number field and saving added to Profile, OTP verification noted as not required for booking.)
+
+*   **Booking Flow:** # [DONE] (BookingActivity and layout created, navigation from Cycle Details implemented. Core booking logic implemented, including saving booking to Firestore and updating cycle status. Currency symbol changed to Rupees. **Time selection validation added to ensure start time is not more than 5 minutes in the past and end time is at least 1 hour after start time.**)
+    *   **Booking Screen:** # [DONE] (Layout created. UI elements for selecting start/end date and time implemented. Cost calculation based on duration implemented. **Initial start time set to current time, initial end time set to current time + 1 hour.**)
+        *   Accessed from the Cycle Details Screen when initiating a booking. # [DONE]
+        *   User specifies the desired rental duration (start date/time, end date/time). # [DONE] (UI elements and logic for date/time picking implemented. **Input validation added to prevent selecting a start time more than 5 minutes in the past and ensure the end time is at least 1 hour after the start time.**)
+        *   Displays a summary of the booking, including calculated cost. # [DONE] (Cost calculation and display implemented with Rupees currency symbol.)
+    *   **Booking Confirmation:** # [DONE] (Logic to create Booking record in Firestore and update Cycle status to "booked" implemented using a WriteBatch for atomicity.)
+        *   User confirms the booking details and proceeds (potentially involves payment integration here). # [TODO] (Payment integration still needed.)
+        *   Upon successful confirmation: # [DONE]
+            *   A transaction record is created. # [DONE] (Booking document created in "bookings" collection.)
+            *   The cycle's status is updated to "booked" for the specified duration. # [DONE] (Cycle document updated with "booked" status and `bookedUntilTimestamp`.)
+            *   **Important Detail:** The booked cycle is **removed from the list of available cycles** on the User Main Screen for the duration of the booking. # [DONE] (Needs data filtering logic in User Main Screen.)
+            *   **Important Detail:** The booked cycle becomes **non-editable** by the owner (via My Cycles) or administrators (via Manage Cycles) for the duration of the booking. # [DONE] (Logic in My Cycles and Admin Manage Cycles updated.)
+        *   Transition: User is shown a confirmation message/screen and can navigate back to the User Main Screen or Transaction History. # [DONE] (Navigates to Transaction History on success with flags to clear activity stack.)
+
+*   **Transaction History Screen (User):** # [DONE] (Activity, layouts, and Adapter created, navigation from User Main. Fetches and displays booking data for the logged-in user from Firestore, including fetching and displaying the associated cycle model name and owner name. Transactions where user is renter or owner are displayed with different background colors. Cost is displayed in Rupees. **Resolved Issue: Data loading error by populating cycle model name directly in Booking objects and simplifying adapter initialization.**)
+    *   Accessed from the User Main Screen. # [DONE]
+    *   Displays a list of all past rental transactions for the logged-in user, both as renter and owner. # [DONE] (Fetches booking data from Firebase Firestore filtering by userId or ownerId)
+    *   Each item shows details like cycle rented, duration, cost, and date. # [DONE] (Data binding in Adapter implemented using Booking objects, fetched cycle model names, and fetched owner names. Cost is displayed in Rupees.)
+    *   Uses different background colors for rented and lent transactions for visual distinction. # [DONE]
+    *   **Feature:** Allow only the renter to leave a review for completed transactions. # [DONE] (Logic implemented to show "Leave Review" button only for completed rented transactions. Initial visibility of the button is set to GONE to prevent brief appearance.)
+    *   **Feature:** Implement "Leave Review," "Edit Review," and "Delete Review" buttons for eligible transactions. # [DONE] (Buttons added to list item layout, click listeners set up in the adapter, and navigation to `WriteReviewActivity` and deletion logic implemented in `TransactionHistoryActivity`. Buttons are positioned on the right side, stacked vertically. **Layout adjusted to fix height and vertical alignment issues.**)
+    *   **Feature:** Implement functionality to edit an existing review. # [DONE] (Logic implemented in `TransactionHistoryActivity` to navigate to `WriteReviewActivity` with existing review data, and `WriteReviewActivity` updated to handle editing and updating the review and cycle statistics.)
+    *   **Feature:** Implement functionality to delete an existing review. # [DONE] (Logic implemented in `TransactionHistoryActivity` to show a confirmation dialog, delete the review document, update the booking status, and recalculate cycle review statistics.)
+    *   **Feature:** Implement client-side sorting for transactions by `createdAt` time using a toggle button. The button reverses the order of the displayed list. # [DONE] (Toggle button added to layout, positioned below the heading and centered with custom styling. Logic to reverse the list implemented in `TransactionHistoryActivity`. **Resolved Issue: Initial text on toggle button not showing by setting correct text color in layout XML.**)
+    *   **Important Detail:** The `Booking` model now includes `isReviewed` and `reviewId` fields to track review status and the associated review document ID. # [DONE]
+
+*   **Profile Activity (User):** # [DONE] (Activity and layout created, navigation from User Main. Needs logic to fetch/update data from Firebase)
+    *   Accessed from the User Main Screen. # [DONE]
+    *   Allows the user to view and update their personal information (Name, Phone Number). # [DONE] (Currently displaying name and email, needs editing functionality # [DONE], **build error resolved # [DONE]**. Saves Name and Phone Number to Firestore.)
+        *   **Important Detail:** Phone number must be provided and verified. # [PARTIALLY DONE] (Field in UI, saving to Firestore, and `isPhoneNumberVerified` field added/initialized/updated # [DONE]. Sending/verifying OTP # [TODO])
+        *   **Important Detail:** Phone number must be provided. # [DONE] (Field in UI, saving to Firestore # [DONE]. **Implemented mandatory check for phone number on profile save.**)
+    *   **Feature:** Logout button added. # [DONE]
+    *   **Feature:** Change Password option implemented, navigating to a new activity. # [DONE] (Navigation issue resolved.)
+    *   **Feature:** View Messages button added to navigate to the User Messages Activity. # [DONE]
+
+*   **User My Cycles Flow:** # [DONE]
+
+    *   **User My Cycles Screen:** # [DONE] (Activity, layouts, and Adapter created, navigation from User Main. Displaying data requires fetching from Firebase # [DONE])
+        *   Accessed from the User Main Screen. # [DONE]
+        *   Displays a list of cycles owned by the logged-in user. # [DONE] (Fetched from Firebase Firestore)
+        *   Includes an option to **Add New Cycle**. # [PARTIALLY DONE] (Button exists, navigation to Add/Edit Cycle implemented # [DONE])
+            *   **Important Detail:** Requires user's phone number to be verified via OTP before adding a new cycle. # [TODO]
+        *   Each listed cycle has options to: # [DONE] (UI elements exist, needs logic # [TODO])
+            *   View Details (similar to Cycle Details Screen, but perhaps with ownership-specific info). # [DONE] (Implemented by navigating to CycleDetailsActivity with cycle ID.)
+            *   Edit Cycle (leads to Add/Edit Cycle Screen). # [DONE] (Button exists, navigation implemented, and update logic implemented # [DONE]). **Important Detail:** The "Edit" option is disabled if the cycle is currently booked. # [DONE] (Logic implemented in adapter. **Toast message shown when disabled by checking isEnabled() within the click listener.**)
+            *   Remove Cycle (if not currently booked). # [DONE] (Button exists, logic implemented, and delete logic implemented # [DONE]). **Important Detail:** The "Remove" option is disabled if the cycle is currently booked. # [DONE] (Logic implemented in adapter. **Toast message shown when disabled by checking isEnabled() within the click listener.**)
+    *   **Add/Edit Cycle Screen:** # [DONE] (Activity and layout created, navigation from My Cycles implemented. Logic to save/update data to Firebase implemented # [DONE])
+        *   Accessed from the User My Cycles Screen (for adding new or editing existing). # [DONE]
+        *   User inputs details: model, color, description, rental price, pickup location. # [DONE] (UI elements exist, data handling implemented # [DONE]. Location is now selected using a Spinner populated with data from Firestore. When editing, the existing cycle's location is pre-selected in the Spinner. # [DONE])
+        *   **Feature:** Allows uploading and managing images of the cycle. # [DONE] (Image selection and upload functionality implemented and working.)
+        *   **Feature:** Added "View Images" button that launches a dedicated `ImageViewerActivity` to display currently uploaded images using a `ViewPager2`. Users can view images and delete the currently displayed image, which updates the cycle's record in Firestore. # [DONE]
+        *   Saves the cycle information. # [DONE] (Saved/Updated to Firebase Firestore)
+
+### 5. Admin Application Flow # [DONE]
+
+*   **Admin Dashboard Activity:** # [DONE] (Activity and layout created, navigation from Login implemented. Linked sections are # [DONE])
+    *   The central landing page after a successful administrator login. # [DONE]
+    *   Provides navigation links or buttons to different admin management sections: # [DONE] (Buttons exist, navigation needs implementation # [DONE])
+        *   Manage Cycles # [DONE]
+        *   Manage Transactions # [DONE]
+        *   Manage Locations # [DONE] (Navigation implemented)
+        *   Manage Users (Potential) # [DONE] (Navigation implemented)
+        *   View Reports or Statistics # [DONE] (Should show count of users, cycles, bookings, active bookings etc. Implemented in Admin Reports Activity.)
+    *   **Feature:** Implement Phone Number (Optional). # [DONE] (Field in UI and Firestore)
+    *   **Feature:** Logout button added. # [DONE]
+
+*   **Admin Manage Cycles Activity:** # [DONE] (Placeholder activity and layout created, declared in AndroidManifest.xml. Fetches and displays all cycles.)
+    *   Accessed from the Admin Dashboard. # [DONE]
+    *   Displays a list of *all* cycles on the platform. # [DONE] (RecyclerView, basic list item layout, and Adapter created. Fetches and displays data from Firebase Firestore. Improved list item UI to match user main screen layout. **Implemented image loading in list items using Picasso.**)
+    *   Admins can view and manage cycles. The "Edit" button has been removed from the list view. Cycles can be blocked and unblocked instead of deleted. # [DONE]
+    *   **Feature:** Cycles can be blocked/unblocked by the admin. When a cycle is blocked or unblocked, the admin is prompted to enter a message for the cycle owner. # [DONE]
+    *   **Important Detail:** When attempting to interact with a cycle that is currently booked, the functionality is restricted or disabled for the duration of the booking. Admins can still view details. # [DONE]
+    *   **Background Task:** Automatically checks for and updates expired booked cycles to 'available' status upon fetching cycles. # [DONE] (Logic added to update expired booked cycles.)
+*   **Admin Manage Transactions Activity:** # [DONE] (Placeholder activity and layout created, declared in AndroidManifest.xml. Displays all transactions. Fetches and displays renter and owner names. Heading style updated.)
+    *   Accessed from the Admin Dashboard. # [DONE]
+    *   Displays a list of all transactions that have occurred on the platform. # [DONE] (Fetches booking data from Firebase Firestore)
+    *   Admins can view details of each transaction. (Potential: search or filter transactions). # [PARTIALLY DONE] (Viewing details implemented by passing data from list.)
+    *   Fetches and displays renter and owner names in the list items. # [DONE]
+
+*   **Admin Manage Locations Activity:** # [DONE] (Activity and layout created with RecyclerView and Add Button. UI for list item created. Adapter for listing locations created (address removed, item click listener added). Fetching and displaying locations from Firestore implemented (refresh on resume implemented). Compilation error in list_item_location.xml fixed. Navigation from Admin Dashboard implemented. "Add New Location" button click listener setup (navigation to AddEditLocationActivity implemented). Check if location is used by cycles before allowing edit/delete. Edit and removing locations logic # [DONE]. **Resolved Issue: Crash due to AdminManageLocationsActivity not being declared in AndroidManifest.xml. Fixed by adding activity declaration.** Layout structure updated to use ConstraintLayout with similar heading style to other admin screens. # [DONE]
+    *   Accessed from the Admin Dashboard. # [DONE]
+    *   Allows administrators to add, update, or remove designated pickup and drop-off locations for cycles. # [DONE] (Needs UI and Firebase Firestore integration)
+    *   **Resolved Issue:** Resource compilation failed in list_item_location.xml due to unbound 'tools' prefix. Fixed by adding xmlns:tools namespace declaration to the root element. # [DONE]
+
+*   **Admin Manage Users Activity:** # [DONE] (Placeholder activity and layout created, declared in AndroidManifest.xml. Heading style updated.)
+    *   Accessed from the Admin Dashboard. # [DONE]
+    *   Allows administrators to view and manage user accounts (e.g., view user details, block or unblock users). # [DONE]
+    *   **Feature:** Users can be blocked or unblocked by the admin. When a user is blocked or unblocked, the admin is prompted to enter a message for the user. # [DONE]
+
+*   **Admin Reports Activity:** # [DONE] (New activity created to display system reports. Heading style updated.)
+    *   Accessed from the Admin Dashboard. # [DONE]
+    *   Displays counts of users, cycles, total bookings, and active bookings fetched from Firestore. # [DONE]
+
+*   **Admin Transaction Details Activity:** # [DONE] (Activity and layout created, navigation from Admin Manage Transactions. Displays details of a selected transaction. Heading style updated.)
+    *   Accessed from the Admin Manage Transactions screen by clicking on a transaction item. # [DONE]
+    *   Displays comprehensive details about the selected transaction, including cycle model name, renter name, and owner name. Data is passed from the previous activity to avoid redundant fetching. # [DONE]
+
+*   **Add/Edit Location Activity:** # [DONE] (Activity and layout created. UI initialized, save button click listener setup, logic to save new location to Firestore implemented (locationId field is now set with document ID). Handling incoming data for editing and logic to update existing locations in Firestore implemented. Adding and editing locations logic # [DONE])
+
+*   **Change Password Activity:** # [DONE] (New activity created for users to change their password.)
+    *   Accessed from the User Profile screen. # [DONE]
+    *   **Feature:** Allows users to change their password using email OTP verification. # [DONE] (Old password is no longer required. OTP sent via Brevo, with a 60-second resend timer.)
+    *   Upon successful OTP verification, the user can set a new password using Firebase Authentication. # [DONE]
+
+*   **Reviews List Activity:** # [DONE] (New activity created to display reviews for a specific cycle. Fetches and displays reviews using a RecyclerView and Adapter.)
+
+### 6. Messaging Feature # [DONE]
+
+*   **Admin Message Creation:** Admin actions such as blocking/unblocking users and blocking/unblocking cycles now prompt the admin to enter a message for the affected user. This message is stored in Firestore. # [DONE]
+*   **User Messages Activity:** # [DONE] (New activity created to display messages for the logged-in user.)
+    *   Accessed from the User Profile screen. # [DONE]
+    *   Displays a list of messages sent to the user, including messages related to admin actions on their account or cycles. # [DONE] (Fetches message data from Firestore.)
+    *   Messages are ordered by timestamp. # [DONE] (Requires a composite Firestore index.)
+    *   Each list item displays the message content and timestamp. # [DONE] (Basic list item layout and adapter created.)
+
+## Integrated Firebase Services # [DONE]
+
+MiCycle utilizes Firebase for its backend services, offering scalability, real-time data synchronization, and managed infrastructure. The following Firebase services have been integrated:
+
+-   **Firebase Authentication:** Handles user registration and login securely, supporting email/password authentication. Used for user signup, login, and the change password feature. # [DONE]
+    *   **Feature:** Email OTP verification integrated into the signup and change password flows for enhanced security. # [DONE]
+    *   **Feature:** Implement Phone Number Authentication (OTP verification) for user verification. # [PARTIALLY DONE] (Dependency added, initial UI elements in ProfileActivity layout, `isPhoneNumberVerified` field added to User model and Firestore, logic to show/hide verification UI based on status # [DONE]. Sending/verifying OTP # [TODO])
+-   **Cloud Firestore:** A flexible, scalable NoSQL cloud database used to store structured data. User profiles, cycle details, transaction records, location information, contact queries, reviews, and admin messages are stored here. # [DONE]
+    *   **Important:** Composite indexes are required for certain queries combining filtering and ordering (e.g., fetching bookings by ownerId and createdAt, fetching messages by userId and timestamp). # [DONE] (Index creation links noted in logs and indexes created.)
+    *   **Important:** Review data is stored in a "reviews" collection and linked to bookings and cycles. # [DONE]
+    *   **Important:** Admin messages are stored in a "messages" collection. # [DONE]
+-   **Cloud Storage for Firebase:** Used to store user-generated content, specifically images of the cycles. Image files are uploaded to Cloud Storage, and download URLs are stored in Cloud Firestore. # [DONE]
+-   **Firebase Cloud Functions:** To run backend code in response to events (e.g., sending notifications on booking confirmation) or to perform administrative tasks. This allows for server-less logic without managing your own servers. # [TODO]
+-   **Firebase Hosting:** To host any web-based components of the application, such as an admin dashboard or a landing page. # [TODO]
+
+Using Firebase shifts data storage and management to a cloud-based solution, enabling easier data synchronization across multiple users and devices, and providing built-in features for authentication, storage, and more. # [DONE]
+
+### Data Models # [DONE] (Defined, basic fields and userType used with Firebase Firestore. Updated with additional fields and transient fields for UI display.)
+
+#### Cycle Object # [DONE] (Defined and integrated with Firestore. Updated with review fields.)
+
+Represents a bicycle available for rent on the platform.\n\n*   **`cycleId`** (String/Unique Identifier): A unique ID for each cycle. # [DONE] (Firestore generates ID on add, used for updates/deletes)
+*   **`ownerId`** (String/Unique Identifier): The ID of the user who owns this cycle, linking it back to the User data model. # [DONE] (Saved/Updated with cycle)
+*   **`model`** (String): The make and model of the bicycle (e.g., "Giant Escape 3", "Trek FX 2"). # [DONE] (Saved/Updated with cycle)
+*   **`color`** (String): The color of the bicycle. # [DONE] (Saved/Updated with cycle)
+*   **`description`** (String): A brief description of the cycle, including features or condition. # [DONE] (Saved/Updated with cycle)
+*   **`pricePerHour`** (Number): The rental price per hour for this cycle. (Or you could use `pricePerDay` depending on the chosen rental unit). # [DONE] (Saved/Updated with cycle)
+*   **`locationId`** (String/Unique Identifier): The ID of the designated location where the cycle is available for pickup and drop-off, linking it to a Location data model. # [DONE] (Saved/Updated with cycle)
+*   **`imageUrls`** (List of Strings/URLs): A list of URLs pointing to images of the cycle stored in cloud storage (like Firebase Cloud Storage). # [DONE]
+*   **`availabilityStatus`** (String): Indicates the current availability state of the cycle (e.g., "available", "booked", "blocked"). # [DONE] (Saved/Updated with cycle, default "available")
+*   **`bookedUntilTimestamp`** (Timestamp/Date): If `availabilityStatus` is "booked", this field stores the date and time until which the cycle is booked. This is crucial for managing availability dynamically. If not booked, this field would be null or empty. # [DONE]
+*   **`averageRating`** (Number): The average rating given to this cycle by users (if a review/rating system is implemented). # [DONE] (Field added and integrated for display.)
+*   **`numberOfReviews`** (Integer): The total number of reviews received for this cycle (if a review/rating system is implemented). # [DONE] (Field added and integrated for display.)
+*   **`createdAt`** (Timestamp/Date): The date and time when the cycle was added to the platform. # [TODO]
+*   **`updatedAt`** (Timestamp/Date): The date and time when the cycle information was last updated. # [TODO]
+*   **`isDeleted`** (Boolean): A flag to soft-delete cycles instead of permanently removing them (optional, but good practice). # [TODO]
+
+*Self-Correction:* Initially, I thought of a simple `isBooked` boolean, but for duration-based booking, tracking the *end time* (`bookedUntilTimestamp`) is much more practical for managing availability dynamically. `availabilityStatus` provides a more general way to handle other states like maintenance.
+
+#### User Object # [DONE] (Defined, basic fields and userType used with Firebase Firestore. Updated with phone number verification status.)
+
+Represents a user of the MiCycle application (either a regular user or an administrator).\n\n*   **`userId`** (String/Unique Identifier): Unique ID provided by the authentication system (e.g., Firebase Auth UID). # [DONE] (Used for storage in Firestore)
+*   **`email`** (String): User's email address (used for login). # [DONE] (Used for signup/login)
+*   **`name`** (String): User's full name or display name. # [DONE] (Field in UI, saving to Firestore # [DONE])
+*   **`phoneNumber`** (String): User's phone number (optional). # [DONE] (Field in UI and fetched, saving to Firestore # [DONE] and verification logic)
+    *   **Important Detail:** This field should be mandatory when editing the profile. # [DONE] (Implemented mandatory check on profile save.)
+    *   **Important Detail:** This field must be verified via OTP for sensitive actions (booking, adding cycle). # [TODO]
+*   **`userType`** (String): Indicates the user's role ("regular", "admin"). This is crucial for directing them to the correct main screen after login and controlling access to admin features. # [DONE] (Used for navigation after login)
+*   **`createdAt`** (Timestamp/Date): The date and time when the user account was created. # [TODO]
+*   **`updatedAt`** (Timestamp/Date): The date and time when the user information was last updated. # [TODO]
+*   **`blocked`** (Boolean): Flag to indicate if a user account is currently blocked (potential admin feature). # [DONE] (Field used for blocking/unblocking users and checking login status.)
+*   **`isPhoneNumberVerified`** (Boolean): Flag to indicate if the user's phone number has been verified via OTP. # [DONE] (Field added to model and Firestore, initialized on signup, updated on profile save)
+
+#### Booking Object # [DONE] (Defined, `cycleName` field added, needs implementation and Firestore integration. Updated with `otherUserName` and `transactionType` for UI display.)
+
+Represents a completed or active rental transaction for a cycle.\n\n*   **`bookingId`** (String/Unique Identifier): A unique ID for each booking. # [DONE]
+*   **`cycleId`** (String/Unique Identifier): The ID of the cycle being booked, linking it to the Cycle data model. # [DONE]
+*   **`userId`** (String/Unique Identifier): The ID of the user making the booking, linking it to the User data model. # [DONE]
+*   **`ownerId`** (String/Unique Identifier): The ID of the owner of the booked cycle, linking it to the User data model. # [DONE]
+*   **`startTime`** (Timestamp/Date): The start time of the booking. # [DONE]
+*   **`endTime`** (Timestamp/Date): The end time of the booking. # [DONE]
+*   **`totalCost`** (Number): The calculated total cost of the booking. # [DONE]
+*   **`bookingStatus`** (String): The current status of the booking (e.g., "pending", "active", "completed", "cancelled"). # [DONE]
+*   **`paymentStatus`** (String): The payment status of the booking (e.g., "pending", "paid", "refunded"). # [DONE]
+*   **`createdAt`** (Timestamp/Date): The date and time when the booking was created. # [DONE]
+*   **`updatedAt`** (Timestamp/Date): The date and time when the booking was last updated. # [DONE]
+*   **`cycleName`** (String): The model name of the booked cycle (fetched for display purposes). # [DONE] (Added as a transient field in the model for UI.)
+*   **`transactionType`** (String): Indicates if the user is the "renter" or "lent" for this booking (transient field for UI). # [DONE]
+*   **`otherUserName`** (String): The name of the other user involved in the transaction (owner if rented, renter if lent) (transient field for UI). # [DONE]
+*   **`isReviewed`** (Boolean): Flag to indicate if a review has been left for this booking by the renter. # [DONE] (Added for review feature implementation.)
+*   **`reviewId`** (String/Unique Identifier): The ID of the review document associated with this booking (if a review exists). # [DONE] (Added for review feature implementation.)
+
+
+#### Location Object # [DONE] (Defined and integrated with Firestore.)
+
+Represents a designated pickup and drop-off location for cycles.\n\n*   **`locationId`** (String/Unique Identifier): A unique ID for each location (Firestore document ID). # [DONE]
+*   **`name`** (String): The name of the location (e.g., "Central Park", "Downtown Square"). # [DONE]
+*   **`address`** (String): The physical address of the location. # [DONE]
+*   **`createdAt`** (Timestamp/Date): The date and time when the location was added. # [TODO]
+*   **`updatedAt`** (Timestamp/Date): The date and time when the location was last updated. # [TODO]
+
+#### Review Object # [DONE] (Defined and integrated with Firestore)
+
+Represents a review left by a renter for a completed booking and its associated cycle.\n\n*   **`reviewId`** (String/Unique Identifier): Firestore document ID for the review. # [DONE]
+*   **`cycleId`** (String/Unique Identifier): ID of the cycle being reviewed. # [DONE]
+*   **`bookingId`** (String/Unique Identifier): ID of the booking this review is for. # [DONE]
+*   **`reviewerId`** (String/Unique Identifier): ID of the user who left the review (the renter). # [DONE]
+*   **`rating`** (Number): The rating given (e.g., 1.0 to 5.0). # [DONE]
+*   **`reviewText`** (String): The text of the review (optional). # [DONE]
+*   **`createdAt`** (Timestamp/Date): Timestamp when the review was created. # [DONE]
+*   **`reviewerName`** (String): Transient field for displaying the reviewer's name (fetched from User collection). # [DONE]
+
+#### Message Object # [DONE] (Defined and integrated with Firestore)
+
+Represents a message sent to a user, primarily initiated by admin actions.\n\n*   **`messageId`** (String/Unique Identifier): Firestore document ID for the message. # [DONE]
+*   **`userId`** (String/Unique Identifier): The ID of the user the message is addressed to. # [DONE]
+*   **`adminId`** (String/Unique Identifier): The ID of the admin who initiated the action/message. # [DONE]
+*   **`actionType`** (String): The type of action that triggered the message (e.g., "user_blocked", "user_unblocked", "cycle_blocked", "cycle_unblocked"). # [DONE]
+*   **`relatedItemId`** (String/Unique Identifier): The ID of the item related to the action (e.g., userId or cycleId). # [DONE]
+*   **`relatedItemName`** (String): The name or model of the related item (e.g., user's name, cycle model name) for display. # [DONE]
+*   **`messageContent`** (String): The actual message from the admin. # [DONE]
+*   **`timestamp`** (Timestamp/Date): The date and time the message was created. # [DONE]

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".AddEditCycleActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/addEditCycleTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add/Edit Cycle"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Image Management Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cycle Images:"
+                android:textSize="18sp"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp">
+
+                <!-- Button to select new images -->
+            <Button
+                android:id="@+id/selectImagesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Images"
+                android:backgroundTint="@color/colorAccent"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="8dp"/>
+
+                <!-- Button to view/delete existing images -->
+                <Button
+                    android:id="@+id/viewImagesButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Images"
+                    android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <!-- Cycle Details Input Fields -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cycle Details:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/modelEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Model (e.g., Trek FX 2)"
+                android:inputType="textCapWords"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/colorEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Color (e.g., Blue)"
+                android:inputType="textCapWords"
+                 android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/descriptionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description (features, condition, etc.)"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="3"
+                 android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/pricePerHourEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Rental Price per Hour (e.g., 10.00)"
+                android:inputType="numberDecimal"
+                 android:layout_marginTop="16dp"/>
+
+            <!-- Location Selection -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pickup Location:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"/>
+
+            <Spinner
+                android:id="@+id/locationSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:spinnerMode="dropdown"/>
+
+
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/saveCycleButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Cycle"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

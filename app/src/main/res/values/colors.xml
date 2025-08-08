@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#66bb6a</color>
+    <!--  Primary Green  -->
+    <color name="colorPrimaryDark">#388e3c</color>
+    <!--  Dark Green  -->
+    <color name="colorAccent">#2e7d32</color>
+    <!--  Accent Green  -->
+    <color name="color1">#1b5e20</color>
+    <!--  Color1 Green (dark green)  -->
+    <color name="color3">#e6f7e6</color>
+    <!--  Light Green (similar to #e6ecff)  -->
+    <color name="color2">#c2f0c2</color>
+    <!--  Light Green (similar to #ccd9ff)  -->
+    <color name="color4">#e6ffe6</color>
+    <!--  Very Light Green (similar to #e6f2ff)  -->
+    <color name="color_rented_background">#E0F7FA</color> <!-- Light blue for rented -->
+    <color name="color_lent_background">#c2f0c2</color> <!-- Use existing color2 for lent -->
+
+    <!-- Colors for the Transaction History Sort Toggle Button -->
+    <color name="toggle_button_text_color_checked">@color/white</color> <!-- White text on dark green background -->
+    <color name="toggle_button_text_color_unchecked">@color/colorPrimaryDark</color> <!-- Dark green text on light green background -->
+</resources>

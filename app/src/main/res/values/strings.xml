@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MiCycle</string>
+    <string name="delete_cycle">Delete Cycle</string>
+    <string name="edit_cycle">Edit Cycle</string>
+    <string name="cycle_image">Cycle Image</string>
+    <string name="sort_cycles_prompt">Sort By:</string>
+    <string-array name="sort_options">
+        <item>None</item>
+        <item>Price (Low to High)</item>
+        <item>Price (High to Low)</item>
+        <item>Rating (High to Low)</item>
+        <item>Rating (Low to High)</item>
+        <item>Location Name (A-Z)</item>
+        <item>Location Name (Z-A)</item>
+    </string-array>
+    <string name="block_cycle">Block Cycle</string>
+    <string name="unblock_cycle">Unblock Cycle</string>
+</resources>

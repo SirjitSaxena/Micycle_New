@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@android:color/white"
+    android:elevation="1dp">
+
+    <!-- Cycle Image -->
+    <ImageView
+        android:id="@+id/cycleImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:src="@mipmap/ic_launcher"/> <!-- Placeholder image -->
+
+    <!-- Cycle Model -->
+    <TextView
+        android:id="@+id/cycleModelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cycleImageView"
+        app:layout_constraintEnd_toStartOf="@+id/cycleRatingTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="4dp"
+        tools:text="Trek FX 2"/> <!-- Placeholder text -->
+
+    <!-- Cycle Price -->
+    <TextView
+        android:id="@+id/cyclePriceTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/cycleModelTextView"
+        app:layout_constraintStart_toEndOf="@+id/cycleImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:text="$10/hour"/> <!-- Placeholder text -->
+
+    <!-- Cycle Location -->
+    <TextView
+        android:id="@+id/cycleLocationTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/cyclePriceTextView"
+        app:layout_constraintStart_toEndOf="@+id/cycleImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Location: Campus Library Entrance"/> <!-- Placeholder text -->
+
+    <!-- Cycle Rating -->
+    <TextView
+        android:id="@+id/cycleRatingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintTop_toTopOf="@+id/cycleModelTextView"
+        app:layout_constraintEnd_toStartOf="@+id/cycleReviewCountTextView"
+        tools:text="4.5 ⭐"/> <!-- Placeholder text -->
+
+    <!-- Cycle Review Count -->
+    <TextView
+        android:id="@+id/cycleReviewCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@+id/cycleModelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="(10)"/> <!-- Placeholder text -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

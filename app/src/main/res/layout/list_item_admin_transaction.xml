@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:elevation="1dp">
+
+    <!-- Cycle Name -->
+    <TextView
+        android:id="@+id/textViewTransactionCycleName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        tools:text="Cycle Model Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTransactionCost"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- Total Cost -->
+    <TextView
+        android:id="@+id/textViewTransactionCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        tools:text="₹200"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- User ID (as an identifier) -->
+    <TextView
+        android:id="@+id/textViewTransactionUserIdentifier"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:text="User ID: user456"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionCycleName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Renter Name (Replacing User ID) -->
+    <TextView
+        android:id="@+id/textViewTransactionRenterName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:text="Renter: John Doe"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionCycleName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Owner Name -->
+    <TextView
+        android:id="@+id/textViewTransactionOwnerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:text="Owner: Jane Smith"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionRenterName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Times (Start - End) -->
+    <TextView
+        android:id="@+id/textViewTransactionTimes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:text="2023-10-27 10:00 - 2023-10-27 12:00"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionOwnerName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTransactionStatus"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- Booking Status -->
+    <TextView
+        android:id="@+id/textViewTransactionStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:text="Completed"
+        app:layout_constraintTop_toTopOf="@+id/textViewTransactionTimes"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTransactionTimes"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@android:color/white"
+    android:elevation="1dp">
+
+    <!-- Placeholder for Cycle Image -->
+    <ImageView
+        android:id="@+id/myCycleImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:src="@mipmap/ic_launcher"/> <!-- Placeholder image -->
+
+    <!-- Cycle Model -->
+    <TextView
+        android:id="@+id/myCycleModelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@+id/myCycleImageView"
+        app:layout_constraintStart_toEndOf="@+id/myCycleImageView"
+        app:layout_constraintEnd_toStartOf="@+id/editCycleButton"
+        android:layout_marginEnd="8dp"
+        tools:text="Trek FX 2"/> <!-- Placeholder text -->
+
+    <!-- Cycle Price -->
+    <TextView
+        android:id="@+id/myCyclePriceTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/myCycleModelTextView"
+        app:layout_constraintStart_toEndOf="@+id/myCycleImageView"
+        app:layout_constraintEnd_toStartOf="@+id/editCycleButton"
+        android:layout_marginEnd="8dp"
+        tools:text="$10/hour"/> <!-- Placeholder text -->
+
+    <!-- Cycle Availability Status -->
+    <TextView
+        android:id="@+id/myCycleStatusTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:textColor="@color/black"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/myCyclePriceTextView"
+        app:layout_constraintStart_toEndOf="@+id/myCycleImageView"
+        app:layout_constraintEnd_toStartOf="@+id/editCycleButton"
+        android:layout_marginEnd="8dp"
+        tools:text="Status: Available"/> <!-- Placeholder text -->
+
+
+    <!-- Edit Cycle Button -->
+    <Button
+        android:id="@+id/editCycleButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/removeCycleButton"/>
+
+    <!-- Remove Cycle Button -->
+    <Button
+        android:id="@+id/removeCycleButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintTop_toBottomOf="@+id/editCycleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- Optional: View Details Button (can be done by clicking the item itself) -->
+    <!-- The documentation mentions "View Details" for each item.
+         Clicking on the item itself is a common way to achieve this,
+         or you could add another button/icon if preferred.
+         For now, we'll assume clicking the item will show details.
+    -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

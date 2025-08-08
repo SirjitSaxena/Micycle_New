@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "637101331047",
+    "project_id": "sirjit-micycle",
+    "storage_bucket": "sirjit-micycle.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637101331047:android:44b87961a16e7df044bac2",
+        "android_client_info": {
+          "package_name": "com.example.micycle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637101331047-bc5kfh4vv4451cpqn05f93rhdbdrs3lg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUSDqKKQwjWxjCum6JOcXDQ7BDh3FHMmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637101331047-bc5kfh4vv4451cpqn05f93rhdbdrs3lg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

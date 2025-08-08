@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".CycleDetailsActivity">
+
+    <!-- ViewPager2 for displaying multiple cycle images -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/cycleImagesViewPager"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/modelLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Model:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cycleImagesViewPager"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/cycleModelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/modelLabel"
+        app:layout_constraintStart_toEndOf="@+id/modelLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        tools:text="Mountain Bike X1" />
+
+    <TextView
+        android:id="@+id/colorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Color:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cycleModelTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/cycleColorTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/colorLabel"
+        app:layout_constraintStart_toEndOf="@+id/colorLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        tools:text="Blue" />
+
+    <TextView
+        android:id="@+id/descriptionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cycleColorTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/cycleDescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/descriptionLabel"
+        app:layout_constraintStart_toEndOf="@+id/descriptionLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        tools:text="A sturdy mountain bike for off-road adventures." />
+
+    <TextView
+        android:id="@+id/priceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cycleDescriptionTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/cyclePriceTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/priceLabel"
+        app:layout_constraintStart_toEndOf="@+id/priceLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        tools:text="$15.00 / day" />
+
+    <TextView
+        android:id="@+id/locationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cyclePriceTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/cycleLocationTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/locationLabel"
+        app:layout_constraintStart_toEndOf="@+id/locationLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        tools:text="Near Central Park" />
+
+    <TextView
+        android:id="@+id/availabilityLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Availability:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cycleLocationTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/cycleAvailabilityTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/availabilityLabel"
+        app:layout_constraintStart_toEndOf="@+id/availabilityLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        tools:text="Available" />
+
+    <TextView
+        android:id="@+id/bookedUntilTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/availabilityLabel"
+        tools:text="Booked Until: 2023-10-27 14:00"
+        android:visibility="gone"/>
+
+    <!-- Cycle Rating -->
+    <TextView
+        android:id="@+id/cycleDetailsRatingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/bookedUntilTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Average Rating: 4.5 ⭐"/> <!-- Placeholder text -->
+
+    <!-- Cycle Review Count -->
+    <TextView
+        android:id="@+id/cycleDetailsReviewCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@+id/cycleDetailsRatingTextView"
+        app:layout_constraintStart_toEndOf="@+id/cycleDetailsRatingTextView"
+        tools:text="(10 reviews)"/> <!-- Placeholder text -->
+
+    <!-- View Reviews Button -->
+    <Button
+        android:id="@+id/viewReviewsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Reviews"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/cycleDetailsRatingTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/bookNowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book Now"
+        app:layout_constraintTop_toBottomOf="@+id/viewReviewsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

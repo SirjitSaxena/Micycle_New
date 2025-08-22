@@ -35,7 +35,7 @@ An Android application for managing a real-time cycle rental service with Fireba
 ![Screenshot_2025-08-08-21-28-35-783_com example micycle](https://github.com/user-attachments/assets/f7143cae-8d12-4448-888d-4543d93aad77)
 ![Screenshot_2025-08-08-21-29-05-137_com example micycle](https://github.com/user-attachments/assets/6912b2cd-a99a-415e-8f9b-cfc5440d60c0)
 ![Screenshot_2025-08-08-21-29-15-404_com example micycle](https://github.com/user-attachments/assets/153027a1-b71f-4ea2-ad73-679932adc0ed)
-![Screenshot_2025-08-08-21-30-56-990_com example cubesolver](https://github.com/user-attachments/assets/7a2b2324-5c33-4308-977d-d838985fd5bd)
+
 
 
 
